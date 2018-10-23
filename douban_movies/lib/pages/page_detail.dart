@@ -73,7 +73,7 @@ class MovieDetial extends StatelessWidget {
     return new ListView(
       children: <Widget>[
         new MovieTitleView(detail),
-//        new MovieAddressView(detail),
+        new MovieRatingView(detail),
 //        new MovieTypeView(detail),
 //        new MovieDescView(detail),
       ],
@@ -94,8 +94,9 @@ class MovieTitleView extends StatelessWidget{
       child: new Column(
         children: <Widget>[
           new Container(
+            width:double.infinity,
             child:new Text(
-              detail==null?'':detail.title,
+              detail.title,
               style: new TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20.0,
@@ -105,24 +106,28 @@ class MovieTitleView extends StatelessWidget{
           new Row(
             children: <Widget>[
               new Expanded(
-                  child:new Column(
-                    children: <Widget>[
-                      new Row(
-                        children: <Widget>[
-                          new StarItem(int.parse(detail.rating.stars)),
-                          new Text('${detail.rating.average}'),
-                        ],
-                      ),
-                      new Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.only(top: 10.0),
-                        child: new Text(
+                  child:new Container(
+                    height: 150.0,
+                    child: new Column(
+                      children: <Widget>[
+                        new Padding(padding: new EdgeInsets.only(top: 10.0)),
+                        new Row(
+                          children: <Widget>[
+                            new StarItem(int.parse(detail.rating.stars)),
+                            new Text('${detail.rating.average}'),
+                          ],
+                        ),
+                        new Container(
+                          width: double.infinity,
+                          margin: EdgeInsets.only(top: 10.0),
+                          child: new Text(
                             MovieDetail.getDetailDesc(detail),
                             textAlign: TextAlign.left,
+                          ),
                         ),
-                      ),
-                    ],
-                  ), 
+                      ],
+                    ),
+                  ),
               ),
               new Image.network(
                   detail.images.medium,
@@ -133,6 +138,26 @@ class MovieTitleView extends StatelessWidget{
           ),
         ],
       ),
+    );
+  }
+}
+
+class MovieRatingView extends StatelessWidget{
+
+  final MovieDetail detail;
+
+  MovieRatingView(this.detail);
+
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      decoration: new BoxDecoration(
+        color: Colors.grey[500],
+        borderRadius: new BorderRadius.all(new Radius.circular(5.0)),
+      ),
+      margin: EdgeInsets.only(left:10.0,right: 10.0,bottom: 10.0),
+      width: double.infinity,
+      height: 150.0,
     );
   }
 }

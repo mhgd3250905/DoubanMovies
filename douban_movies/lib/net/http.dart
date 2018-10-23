@@ -7,7 +7,7 @@ class HttpUtils {
 
   static get(String url, {Map map}) async {
     Dio dio = new Dio();
-    Response response = await dio.get(url);
+    Response response = await dio.get(url,data: map);
     return response.data;
   }
 }
