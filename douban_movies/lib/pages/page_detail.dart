@@ -48,7 +48,7 @@ class _DetailContentState extends State<DetailContent>{
 
   //获取电影详情
   loadData() async {
-    var datas = await HttpUtils.get('${HttpUtils.URL_GET_MOVIE_DETAIL}$id');
+    var datas = await HttpUtils.get(HttpUtils.URL_GET_MOVIE_DETAIL+id+HttpUtils.URL_GET_MOVIE_DETAIL_2);
     detail = new MovieDetail(datas);
     setState(() {});
   }
@@ -57,7 +57,7 @@ class _DetailContentState extends State<DetailContent>{
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Container(
-      child: new MovieDetial(detail),
+      child: detail==null?new Container():new MovieDetial(detail),
     );
   }
 }
@@ -109,13 +109,17 @@ class MovieTitleView extends StatelessWidget{
                     children: <Widget>[
                       new Row(
                         children: <Widget>[
-                          new StarItem(int.parse(detail==null?"0":detail.rating.stars)),
-                          new Text('${detail==null?'':detail.rating.average}'),
+                          new StarItem(int.parse(detail.rating.stars)),
+                          new Text('${detail.rating.average}'),
                         ],
                       ),
                       new Container(
+                        width: double.infinity,
                         margin: EdgeInsets.only(top: 10.0),
-                        child: new Text(MovieDetail.getDetailDesc(detail)),
+                        child: new Text(
+                            MovieDetail.getDetailDesc(detail),
+                            textAlign: TextAlign.left,
+                        ),
                       ),
                     ],
                   ), 

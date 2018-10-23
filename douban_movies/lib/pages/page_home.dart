@@ -31,16 +31,26 @@ class HomeContent extends StatefulWidget {
 
 class _HomeContentState extends State<HomeContent> {
   List<subject> _subjects = new List();
+  ScrollController _scrollController=new ScrollController();
+  int start=0;
+  int limit=25;
+  int page=0;
 
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener((){
+      if(_scrollController.position.pixels==
+      _scrollController.position.maxScrollExtent){
+        _getMore();
+      }
+    });
     loadData();
   }
 
   //获取电影列表
-  loadData() async {
-    var datas = await HttpUtils.get(HttpUtils.URL_GET_MOVIE_LIST);
+  Future<Null> loadData() async {
+    var datas = await HttpUtils.get(HttpUtils.URL_GET_MOVIE_LIST,map: {'start':start+page*limit,'count':limit});
     MovieList moveList = new MovieList(datas);
     _subjects = moveList.subjects;
     setState(() {});
@@ -48,16 +58,32 @@ class _HomeContentState extends State<HomeContent> {
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      child: new ListView.builder(
-          itemCount: _subjects.length,
-          itemBuilder: (context, i) {
-            if (i.isOdd) return new Divider();
-            int index=i~/2;
-            return new MoveItem(_subjects[index]);
-          },
-      ),
+    return new RefreshIndicator(
+        child: new Container(
+          child: new ListView.builder(
+            controller: _scrollController,
+            itemCount: _subjects.length,
+            itemBuilder: (context, i) {
+              if (i.isOdd) return new Divider();
+              int index=i~/2;
+              return new MoveItem(_subjects[index]);
+            },
+          ),
+        ),
+        onRefresh: loadData,
+
     );
+  }
+
+  void _getMore() async{
+    page++;
+    print('$page');
+    var datas = await HttpUtils.get(HttpUtils.URL_GET_MOVIE_LIST,map: {'start':start+page*limit,'count':limit});
+    MovieList moveList = new MovieList(datas);
+    _subjects.addAll(moveList.subjects);
+    setState(() {
+
+    });
   }
 }
 
