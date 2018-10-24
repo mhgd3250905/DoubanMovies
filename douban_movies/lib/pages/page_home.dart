@@ -53,7 +53,15 @@ class _HomeContentState extends State<HomeContent> {
   Future<Null> _loadData() async {
     page = 0;
     var datas = await HttpUtils.get(HttpUtils.URL_GET_MOVIE_LIST,
-        map: {'start': start + page * limit, 'count': limit});
+        map: {
+          'apikey': HttpUtils.URL_API_KEY,
+          'udid': HttpUtils.URL_UDID,
+          'city': '上海',
+          'client': '',
+          'start': start + page * limit,
+          'count': limit
+        }
+    );
     MovieList moveList = new MovieList(datas);
     _subjects = moveList.subjects;
     setState(() {});
@@ -118,14 +126,6 @@ class MoveItem extends StatelessWidget {
               height: 150.0,
             ),
           ),
-//          使用一个图片缓存框架
-//          new CachedNetworkImage(
-//            imageUrl: subjectData.images.medium,
-//            placeholder: new CircularProgressIndicator(),
-//            errorWidget: new Icon(Icons.error),
-//            width: 100.0,
-//            height: 150.0,
-//          ),
           new Expanded(
             child: new Container(
               height: 150.0,
@@ -149,12 +149,17 @@ class MoveItem extends StatelessWidget {
                       new Text('${subjectData.rating.average}')
                     ],
                   ),
-
                   new Container(
                     width: double.infinity,
                     child: new Text(
                       '${MovieList.getDetailDesc(subjectData)}',
                       textAlign: TextAlign.left,
+                    ),
+                  ),
+                  new Expanded(
+                    child: new Container(
+                      padding: new EdgeInsets.only(top:10.0),
+                      child: new CastsView(subjectData.casts),
                     ),
                   ),
                 ],
@@ -163,6 +168,41 @@ class MoveItem extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class CastsView extends StatelessWidget {
+
+  final List<cast> casts;
+
+  CastsView(this.casts);
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return casts == null ? new Container()
+        : new ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: casts.length,
+      itemBuilder: (context, i) {
+        return new Column(
+          children: <Widget>[
+            new Container(
+              padding: new EdgeInsets.only(left: i!=0?10.0:0.0,top: 5.0),
+              child: new ClipOval(
+                child: new FadeInImage.memoryNetwork(
+                  placeholder: kTransparentImage,
+                  fit: BoxFit.fitWidth,
+                  image:casts[i].avatars.small,
+                  height: 45.0,
+                  width: 45.0,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

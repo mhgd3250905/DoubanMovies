@@ -23,7 +23,7 @@ class DetailPage extends StatelessWidget {
 
 }
 
-class DetailContent extends StatefulWidget{
+class DetailContent extends StatefulWidget {
 
   final String id;
 
@@ -33,7 +33,7 @@ class DetailContent extends StatefulWidget{
   _DetailContentState createState() => _DetailContentState(id);
 }
 
-class _DetailContentState extends State<DetailContent>{
+class _DetailContentState extends State<DetailContent> {
 
   final String id;
   MovieDetail detail;
@@ -48,7 +48,14 @@ class _DetailContentState extends State<DetailContent>{
 
   //获取电影详情
   loadData() async {
-    var datas = await HttpUtils.get(HttpUtils.URL_GET_MOVIE_DETAIL+id+HttpUtils.URL_GET_MOVIE_DETAIL_2);
+    var datas = await HttpUtils.get(HttpUtils.URL_GET_MOVIE_DETAIL + id,
+        map: {
+          'apikey':HttpUtils.URL_API_KEY,
+          'udid':HttpUtils.URL_UDID,
+          'city':'上海',
+          'client':'',
+        },
+    );
     detail = new MovieDetail(datas);
     setState(() {});
   }
@@ -57,7 +64,7 @@ class _DetailContentState extends State<DetailContent>{
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Container(
-      child: detail==null?new Container():new MovieDetial(detail),
+      child: detail == null ? new Container() : new MovieDetial(detail),
     );
   }
 }
@@ -81,7 +88,7 @@ class MovieDetial extends StatelessWidget {
   }
 }
 
-class MovieTitleView extends StatelessWidget{
+class MovieTitleView extends StatelessWidget {
 
   final MovieDetail detail;
 
@@ -94,8 +101,8 @@ class MovieTitleView extends StatelessWidget{
       child: new Column(
         children: <Widget>[
           new Container(
-            width:double.infinity,
-            child:new Text(
+            width: double.infinity,
+            child: new Text(
               detail.title,
               style: new TextStyle(
                 fontWeight: FontWeight.bold,
@@ -106,28 +113,28 @@ class MovieTitleView extends StatelessWidget{
           new Row(
             children: <Widget>[
               new Expanded(
-                  child:new Container(
-                    height: 150.0,
-                    child: new Column(
-                      children: <Widget>[
-                        new Padding(padding: new EdgeInsets.only(top: 10.0)),
-                        new Row(
-                          children: <Widget>[
-                            new StarItem(int.parse(detail.rating.stars)),
-                            new Text('${detail.rating.average}'),
-                          ],
+                child: new Container(
+                  height: 150.0,
+                  child: new Column(
+                    children: <Widget>[
+                      new Padding(padding: new EdgeInsets.only(top: 10.0)),
+                      new Row(
+                        children: <Widget>[
+                          new StarItem(int.parse(detail.rating.stars)),
+                          new Text('${detail.rating.average}'),
+                        ],
+                      ),
+                      new Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.only(top: 10.0),
+                        child: new Text(
+                          MovieDetail.getDetailDesc(detail),
+                          textAlign: TextAlign.left,
                         ),
-                        new Container(
-                          width: double.infinity,
-                          margin: EdgeInsets.only(top: 10.0),
-                          child: new Text(
-                            MovieDetail.getDetailDesc(detail),
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
+                ),
               ),
               new Image.network(
                   detail.images.medium,
@@ -142,7 +149,7 @@ class MovieTitleView extends StatelessWidget{
   }
 }
 
-class MovieRatingView extends StatelessWidget{
+class MovieRatingView extends StatelessWidget {
 
   final MovieDetail detail;
 
@@ -155,7 +162,7 @@ class MovieRatingView extends StatelessWidget{
         color: Colors.grey[500],
         borderRadius: new BorderRadius.all(new Radius.circular(5.0)),
       ),
-      margin: EdgeInsets.only(left:10.0,right: 10.0,bottom: 10.0),
+      margin: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
       width: double.infinity,
       height: 150.0,
     );
