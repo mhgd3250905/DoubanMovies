@@ -4,6 +4,7 @@ import 'package:douban_movies/pages/page_home.dart';
 import 'package:douban_movies/data/bean_move_list.dart';
 import 'package:douban_movies/net/http.dart';
 import 'package:douban_movies/data/bean_move_detail.dart';
+import 'views/StartsView.dart';
 
 class DetailPage extends StatelessWidget {
 
@@ -49,12 +50,12 @@ class _DetailContentState extends State<DetailContent> {
   //获取电影详情
   loadData() async {
     var datas = await HttpUtils.get(HttpUtils.URL_GET_MOVIE_DETAIL + id,
-        map: {
-          'apikey':HttpUtils.URL_API_KEY,
-          'udid':HttpUtils.URL_UDID,
-          'city':'上海',
-          'client':'',
-        },
+      map: {
+        'apikey': HttpUtils.URL_API_KEY,
+        'udid': HttpUtils.URL_UDID,
+        'city': '上海',
+        'client': '',
+      },
     );
     detail = new MovieDetail(datas);
     setState(() {});
@@ -120,7 +121,7 @@ class MovieTitleView extends StatelessWidget {
                       new Padding(padding: new EdgeInsets.only(top: 10.0)),
                       new Row(
                         children: <Widget>[
-                          new StarItem(int.parse(detail.rating.stars)),
+                          new StarItem(int.parse(detail.rating.stars), 25.0),
                           new Text('${detail.rating.average}'),
                         ],
                       ),
@@ -165,6 +166,34 @@ class MovieRatingView extends StatelessWidget {
       margin: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
       width: double.infinity,
       height: 150.0,
+      child: new Column(
+        children: <Widget>[
+          new Container(
+            child: new Text(
+              '豆瓣评分',
+                style: new TextStyle(
+                  color: Colors.white,
+                ),
+            ),
+            height: 20.0,
+            width: double.infinity,
+          ),
+          new Container(
+            height: 130.0,
+            width: double.infinity,
+            child: new RateStarsView(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class RateStarsView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return new Container(
     );
   }
 }

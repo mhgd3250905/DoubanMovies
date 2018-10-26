@@ -4,6 +4,7 @@ import 'package:douban_movies/data/bean_move_list.dart';
 import 'package:douban_movies/net/http.dart';
 import 'package:douban_movies/pages/page_detail.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'views/StartsView.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -145,7 +146,7 @@ class MoveItem extends StatelessWidget {
                   ),
                   new Row(
                     children: <Widget>[
-                      new StarItem(int.parse(subjectData.rating.stars)),
+                      new StarItem(int.parse(subjectData.rating.stars),25.0),
                       new Text('${subjectData.rating.average}')
                     ],
                   ),
@@ -156,12 +157,12 @@ class MoveItem extends StatelessWidget {
                       textAlign: TextAlign.left,
                     ),
                   ),
-                  new Expanded(
-                    child: new Container(
-                      padding: new EdgeInsets.only(top:10.0),
-                      child: new CastsView(subjectData.casts),
-                    ),
-                  ),
+//                  new Expanded(
+//                    child: new Container(
+//                      padding: new EdgeInsets.only(top:10.0),
+//                      child: new CastsView(subjectData.casts),
+//                    ),
+//                  ),
                 ],
               ),
             ),
@@ -207,35 +208,3 @@ class CastsView extends StatelessWidget {
   }
 }
 
-class StarItem extends StatelessWidget {
-  final int _startCount;
-
-  StarItem(this._startCount);
-
-  @override
-  Widget build(BuildContext context) {
-    return getStarView(_startCount);
-  }
-}
-
-getStarView(int starts) {
-  //获取半实心Start的数量
-  int emptyStarCount = starts % 10 == 0 ? 0 : 1;
-  //获取实心Start的数量
-  int fullStartCount = starts ~/ 10;
-
-
-  List<Widget> starList = <Widget>[];
-
-  for (var i = 0; i < fullStartCount; i++) {
-    starList.add(new Icon(Icons.star, color: Colors.yellow,));
-  }
-
-  if (emptyStarCount != 0) {
-    starList.add(new Icon(Icons.star_half, color: Colors.yellow));
-  }
-
-  return new Row(
-    children: starList,
-  );
-}
