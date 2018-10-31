@@ -146,7 +146,9 @@ class MoveItem extends StatelessWidget {
                   ),
                   new Row(
                     children: <Widget>[
-                      new StarItem(int.parse(subjectData.rating.stars),25.0),
+                      new StarItem(int.parse(subjectData.rating.stars),
+                          25.0,
+                          Colors.orange[300]),
                       new Text('${subjectData.rating.average}')
                     ],
                   ),
@@ -190,12 +192,12 @@ class CastsView extends StatelessWidget {
         return new Column(
           children: <Widget>[
             new Container(
-              padding: new EdgeInsets.only(left: i!=0?10.0:0.0,top: 5.0),
+              padding: new EdgeInsets.only(left: i != 0 ? 10.0 : 0.0, top: 5.0),
               child: new ClipOval(
                 child: new FadeInImage.memoryNetwork(
                   placeholder: kTransparentImage,
                   fit: BoxFit.fitWidth,
-                  image:casts[i].avatars.small,
+                  image: casts[i].avatars.small,
                   height: 45.0,
                   width: 45.0,
                 ),

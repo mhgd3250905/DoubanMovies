@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 class StarItem extends StatelessWidget {
   final int _startCount;
   final double _starSize;
+  final Color _starColor;
 
-  StarItem(this._startCount,this._starSize);
+  StarItem(this._startCount,this._starSize,this._starColor);
 
   @override
   Widget build(BuildContext context) {
-    return getStarView(_startCount,_starSize);
+    return getStarView(_startCount,_starSize,_starColor);
   }
 }
 
-getStarView(int starts,double starSize) {
+getStarView(int starts,double starSize, Color starColor) {
   //获取半实心Start的数量
   int emptyStarCount = starts % 10 == 0 ? 0 : 1;
   //获取实心Start的数量
@@ -22,11 +23,15 @@ getStarView(int starts,double starSize) {
   List<Widget> starList = <Widget>[];
 
   for (var i = 0; i < fullStartCount; i++) {
-    starList.add(new Icon(Icons.star, color: Colors.yellow,size: starSize,));
+    starList.add(new Icon(Icons.star, color: starColor,size: starSize,));
   }
 
   if (emptyStarCount != 0) {
-    starList.add(new Icon(Icons.star_half, color: Colors.yellow,size: starSize,));
+    starList.add(new Icon(Icons.star_half, color: starColor,size: starSize,));
+  }
+
+  for(var i=0;i<(4-fullStartCount);i++){
+    starList.add(new Icon(Icons.star_border, color: starColor,size: starSize,));
   }
 
   return new Row(

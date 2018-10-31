@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 
 void main() {
   //设置debugPaintSizeEnabled为true来更直观的调试布局问题
-  debugPaintSizeEnabled=true;
+  debugPaintSizeEnabled=false;
   return runApp(new HomePage());
 }
 

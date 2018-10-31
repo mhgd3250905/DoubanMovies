@@ -121,7 +121,9 @@ class MovieTitleView extends StatelessWidget {
                       new Padding(padding: new EdgeInsets.only(top: 10.0)),
                       new Row(
                         children: <Widget>[
-                          new StarItem(int.parse(detail.rating.stars), 25.0),
+                          new StarItem(int.parse(detail.rating.stars),
+                              25.0,
+                              Colors.orange[300]),
                           new Text('${detail.rating.average}'),
                         ],
                       ),
@@ -169,19 +171,39 @@ class MovieRatingView extends StatelessWidget {
       child: new Column(
         children: <Widget>[
           new Container(
+            padding: EdgeInsets.only(top: 5.0,left: 5.0),
             child: new Text(
               '豆瓣评分',
-                style: new TextStyle(
-                  color: Colors.white,
-                ),
+              style: new TextStyle(
+                color: Colors.white,
+              ),
             ),
-            height: 20.0,
+            height: 25.0,
             width: double.infinity,
           ),
           new Container(
-            height: 130.0,
+            height: 100.0,
             width: double.infinity,
-            child: new RateStarsView(),
+            child: new RateStarsView(detail),
+          ),
+          new Container(
+            child: new Column(
+              children: <Widget>[
+                new Container(
+                  margin: new EdgeInsets.all(10.0),
+                  color: Colors.white,
+                  width: double.infinity,
+                  height: 1.0,
+                ),
+                new Expanded(
+                    child: new Container(
+
+                    )
+                ),
+              ],
+            ),
+            height: 25.0,
+            width: double.infinity,
           ),
         ],
       ),
@@ -190,10 +212,52 @@ class MovieRatingView extends StatelessWidget {
 }
 
 class RateStarsView extends StatelessWidget {
+
+  final MovieDetail detail;
+
+  RateStarsView(this.detail);
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return new Container(
+    return new Row(
+      children: <Widget>[
+        new Expanded(
+          child: new Column(
+            children: <Widget>[
+              new Expanded(
+                child: new Container(
+                  child: new Text('${detail.rating.average}',
+                    style: new TextStyle(
+                      fontSize: 40.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  alignment: Alignment.bottomRight,
+                )
+              ),
+              new Row(
+                children: <Widget>[
+                  new Expanded(child: new Container()),
+                  new Container(
+                    child: new StarItem(int.parse(detail.rating.stars),
+                        15.0,
+                        Colors.orange[300]),
+                    padding: EdgeInsets.only(bottom: 20.0),
+                    alignment: Alignment.topRight,
+                  )
+                ],
+              )
+            ],
+          ),
+          flex: 3,
+        ),
+        new Expanded(
+          child: new Container(),
+          flex: 7,
+        ),
+      ],
     );
   }
 }
