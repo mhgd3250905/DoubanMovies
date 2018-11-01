@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:douban_movies/res/value_string.dart';
 import 'package:douban_movies/pages/page_home.dart';
-import 'package:douban_movies/data/bean_move_list.dart';
+import 'package:douban_movies/data/bean_move_list.dart' as MoveList;
 import 'package:douban_movies/net/http.dart';
 import 'package:douban_movies/data/bean_move_detail.dart';
 import 'views/StartsView.dart';
 
 class DetailPage extends StatelessWidget {
-  final subject subjectItem;
+  final subjectItem;
 
   DetailPage(this.subjectItem);
 
@@ -157,39 +157,24 @@ class MovieRatingView extends StatelessWidget {
       ),
       margin: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
       width: double.infinity,
-      height: 150.0,
+      height: 130.0,
       child: new Column(
         children: <Widget>[
           new Container(
-            padding: EdgeInsets.only(top: 5.0, left: 5.0),
+            padding: EdgeInsets.only(top: 5.0, left: 10.0),
             child: new Text(
               '豆瓣评分',
               style: new TextStyle(
                 color: Colors.white,
               ),
             ),
-            height: 25.0,
+            height: 10.0,
             width: double.infinity,
           ),
           new Container(
-            height: 100.0,
+            height: 110.0,
             width: double.infinity,
             child: new RateStarsView(detail),
-          ),
-          new Container(
-            child: new Column(
-              children: <Widget>[
-                new Container(
-                  margin: new EdgeInsets.all(10.0),
-                  color: Colors.white,
-                  width: double.infinity,
-                  height: 1.0,
-                ),
-                new Expanded(child: new Container()),
-              ],
-            ),
-            height: 25.0,
-            width: double.infinity,
           ),
         ],
       ),
@@ -212,11 +197,7 @@ class RateStarsView extends StatelessWidget {
           child: new RateStarsLeftView(detail),
         ),
         new Expanded(
-          flex: 3,
-          child: new RateStarsMidView(detail),
-        ),
-        new Expanded(
-          flex: 4,
+          flex: 7,
           child: new RateStarsRightView(detail),
         ),
       ],
@@ -237,16 +218,16 @@ class RateStarsLeftView extends StatelessWidget {
       children: <Widget>[
         new Expanded(
             child: new Container(
-          child: new Text(
-            '${detail.rating.average}',
-            style: new TextStyle(
-              fontSize: 40.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          alignment: Alignment.bottomRight,
-        )),
+              child: new Text(
+                '${detail.rating.average}',
+                style: new TextStyle(
+                  fontSize: 40.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              alignment: Alignment.bottomRight,
+            )),
         new Row(
           children: <Widget>[
             new Expanded(child: new Container()),
@@ -264,30 +245,6 @@ class RateStarsLeftView extends StatelessWidget {
 }
 
 ///评分区域中间中部的部分
-class RateStarsMidView extends StatelessWidget {
-  final MovieDetail detail;
-
-  RateStarsMidView(this.detail);
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return new Container(
-      margin: EdgeInsets.only(left: 5.0),
-      child: new Column(
-        children: <Widget>[
-          new StarItem(50, 10.0, Colors.white, false),
-          new StarItem(40, 10.0, Colors.white, false),
-          new StarItem(30, 10.0, Colors.white, false),
-          new StarItem(20, 10.0, Colors.white, false),
-          new StarItem(10, 10.0, Colors.white, false),
-        ],
-      ),
-    );
-  }
-}
-
-///评分区域中间右边的部分
 class RateStarsRightView extends StatelessWidget {
   final MovieDetail detail;
 
@@ -296,6 +253,71 @@ class RateStarsRightView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return new Container();
+    return new Column(
+      children: <Widget>[
+        new Expanded(child: new Container()),
+        new Container(
+          alignment: Alignment.bottomRight,
+          margin: EdgeInsets.only(left: 5.0),
+          child: new Column(
+            children: <Widget>[
+              new StarAndProgressItem(detail.rating, 5),
+              new StarAndProgressItem(detail.rating, 4),
+              new StarAndProgressItem(detail.rating, 3),
+              new StarAndProgressItem(detail.rating, 2),
+              new StarAndProgressItem(detail.rating, 1),
+            ],
+            mainAxisSize: MainAxisSize.min,
+          ),
+        ),
+        new Container(
+          height: 20.0,
+          margin: EdgeInsets.only(left: 5.0,right: 45.0),
+          child: new Row(
+            children: <Widget>[
+              new Expanded(child: new Container()),
+              new Text('${detail.rating.details.getDetailTotal()}人评分'),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class StarAndProgressItem extends StatelessWidget {
+
+  final rate _rate;
+  final int _starIndex;
+
+  StarAndProgressItem(this._rate, this._starIndex);
+
+  @override
+  Widget build(BuildContext context) {
+    return new Row(
+      children: <Widget>[
+        new Container(
+          width:60.0,
+          alignment: Alignment.centerRight,
+          child: new Row(
+            children: <Widget>[
+              new Expanded(child: new Container()),
+              new Container(
+                alignment: Alignment.centerRight,
+                child: new StarItem(_starIndex * 10, 12.0, Colors.white, false),
+              )
+            ],
+          ),
+        ),
+        new Container(
+          width: 150.0,
+          child: new LinearProgressIndicator(
+            value: _rate.details.getDetailIndexRate(_starIndex),
+            backgroundColor: Colors.grey[600],
+          ),
+        ),
+
+      ],
+    );
   }
 }

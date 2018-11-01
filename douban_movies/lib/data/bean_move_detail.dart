@@ -260,6 +260,34 @@ class detail {
   var detial_4;
   var detial_5;
 
+  int getDetailTotal(){
+    return (detial_1+detial_2+detial_3+detial_4+detial_5).toInt();
+  }
+
+   double getDetailIndexRate(int index){
+    double sum=detial_1+detial_2+detial_3
+        +detial_4+detial_5;
+    double rate=0.0;
+    switch(index){
+      case 1:
+        rate=detial_1/sum;
+        break;
+      case 2:
+        rate=detial_2/sum;
+        break;
+      case 3:
+        rate=detial_3/sum;
+        break;
+      case 4:
+        rate=detial_4/sum;
+        break;
+      case 5:
+        rate=detial_5/sum;
+        break;
+    }
+    return rate;
+  }
+
   detail.fromParams({this.detial_1, this.detial_2, this.detial_3, this.detial_4, this.detial_5});
 
   detail.fromJson(jsonRes) {
