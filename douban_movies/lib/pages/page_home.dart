@@ -6,7 +6,6 @@ import 'package:douban_movies/pages/page_detail.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'views/StartsView.dart';
 
-
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -20,7 +19,6 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-
 }
 
 /**
@@ -53,16 +51,14 @@ class _HomeContentState extends State<HomeContent> {
   //获取电影列表
   Future<Null> _loadData() async {
     page = 0;
-    var datas = await HttpUtils.get(HttpUtils.URL_GET_MOVIE_LIST,
-        map: {
-          'apikey': HttpUtils.URL_API_KEY,
-          'udid': HttpUtils.URL_UDID,
-          'city': '上海',
-          'client': '',
-          'start': start + page * limit,
-          'count': limit
-        }
-    );
+    var datas = await HttpUtils.get(HttpUtils.URL_GET_MOVIE_LIST, map: {
+      'apikey': HttpUtils.URL_API_KEY,
+      'udid': HttpUtils.URL_UDID,
+      'city': '上海',
+      'client': '',
+      'start': start + page * limit,
+      'count': limit
+    });
     MovieList moveList = new MovieList(datas);
     _subjects = moveList.subjects;
     setState(() {});
@@ -93,14 +89,11 @@ class _HomeContentState extends State<HomeContent> {
         map: {'start': start + page * limit, 'count': limit});
     MovieList moveList = new MovieList(datas);
     _subjects.addAll(moveList.subjects);
-    setState(() {
-
-    });
+    setState(() {});
   }
 }
 
 class MoveItem extends StatelessWidget {
-
   final subject subjectData;
 
   MoveItem(this.subjectData);
@@ -146,9 +139,8 @@ class MoveItem extends StatelessWidget {
                   ),
                   new Row(
                     children: <Widget>[
-                      new StarItem(int.parse(subjectData.rating.stars),
-                          25.0,
-                          Colors.orange[300]),
+                      new StarItem(int.parse(subjectData.rating.stars), 25.0,
+                          Colors.orange[300], true),
                       new Text('${subjectData.rating.average}')
                     ],
                   ),
@@ -176,7 +168,6 @@ class MoveItem extends StatelessWidget {
 }
 
 class CastsView extends StatelessWidget {
-
   final List<cast> casts;
 
   CastsView(this.casts);
@@ -184,29 +175,30 @@ class CastsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return casts == null ? new Container()
+    return casts == null
+        ? new Container()
         : new ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: casts.length,
-      itemBuilder: (context, i) {
-        return new Column(
-          children: <Widget>[
-            new Container(
-              padding: new EdgeInsets.only(left: i != 0 ? 10.0 : 0.0, top: 5.0),
-              child: new ClipOval(
-                child: new FadeInImage.memoryNetwork(
-                  placeholder: kTransparentImage,
-                  fit: BoxFit.fitWidth,
-                  image: casts[i].avatars.small,
-                  height: 45.0,
-                  width: 45.0,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
+            scrollDirection: Axis.horizontal,
+            itemCount: casts.length,
+            itemBuilder: (context, i) {
+              return new Column(
+                children: <Widget>[
+                  new Container(
+                    padding: new EdgeInsets.only(
+                        left: i != 0 ? 10.0 : 0.0, top: 5.0),
+                    child: new ClipOval(
+                      child: new FadeInImage.memoryNetwork(
+                        placeholder: kTransparentImage,
+                        fit: BoxFit.fitWidth,
+                        image: casts[i].avatars.small,
+                        height: 45.0,
+                        width: 45.0,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
   }
 }
-
