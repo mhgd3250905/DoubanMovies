@@ -17,7 +17,7 @@ class StarItem extends StatelessWidget {
 
 getStarView(int starts, double starSize, Color starColor, bool hasBorderStar) {
   //获取半实心Start的数量
-  int emptyStarCount = starts % 10 == 0 ? 0 : 1;
+  int halfStarCount = starts % 10 == 0 ? 0 : 1;
   //获取实心Start的数量
   int fullStartCount = starts ~/ 10;
 
@@ -31,7 +31,7 @@ getStarView(int starts, double starSize, Color starColor, bool hasBorderStar) {
     ));
   }
 
-  if (emptyStarCount != 0) {
+  if (halfStarCount != 0) {
     starList.add(new Icon(
       Icons.star_half,
       color: starColor,
@@ -40,7 +40,8 @@ getStarView(int starts, double starSize, Color starColor, bool hasBorderStar) {
   }
 
   if (hasBorderStar) {
-    for (var i = 0; i < (4 - fullStartCount); i++) {
+    int borderStartCount=halfStarCount!=0?4 - fullStartCount:5-fullStartCount;
+    for (var i = 0; i < borderStartCount; i++) {
       starList.add(new Icon(
         Icons.star_border,
         color: starColor,

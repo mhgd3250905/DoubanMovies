@@ -5,6 +5,8 @@ import 'package:douban_movies/data/bean_move_list.dart' as MoveList;
 import 'package:douban_movies/net/http.dart';
 import 'package:douban_movies/data/bean_move_detail.dart';
 import 'views/StartsView.dart';
+import 'package:transparent_image/transparent_image.dart';
+
 
 class DetailPage extends StatelessWidget {
   final subjectItem;
@@ -43,6 +45,7 @@ class _DetailContentState extends State<DetailContent> {
     loadData();
   }
 
+  
   //获取电影详情
   loadData() async {
     var datas = await HttpUtils.get(
@@ -85,6 +88,7 @@ class MovieDetial extends StatelessWidget {
   }
 }
 
+///Movie Title block
 class MovieTitleView extends StatelessWidget {
   final MovieDetail detail;
 
@@ -94,48 +98,60 @@ class MovieTitleView extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Container(
       padding: new EdgeInsets.all(10.0),
-      child: new Column(
+      child: new Row(
         children: <Widget>[
-          new Container(
-            width: double.infinity,
-            child: new Text(
-              detail.title,
-              style: new TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0,
-              ),
-            ),
+          new FadeInImage.memoryNetwork(
+            placeholder: kTransparentImage,
+            image: detail.images.medium,
+            width: 100.0,
+            height: 150.0,
           ),
-          new Row(
-            children: <Widget>[
-              new Expanded(
-                child: new Container(
-                  height: 150.0,
-                  child: new Column(
-                    children: <Widget>[
-                      new Padding(padding: new EdgeInsets.only(top: 10.0)),
-                      new Row(
-                        children: <Widget>[
-                          new StarItem(int.parse(detail.rating.stars), 25.0,
-                              Colors.orange[300], true),
-                          new Text('${detail.rating.average}'),
-                        ],
-                      ),
-                      new Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.only(top: 10.0),
-                        child: new Text(
-                          MovieDetail.getDetailDesc(detail),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                    ],
+          new Expanded(
+            child: new Column(
+              children: <Widget>[
+                new Container(
+                  width: double.infinity,
+                  child: new Text(
+                    detail.title,
+                    style: new TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                    ),
                   ),
                 ),
-              ),
-              new Image.network(detail.images.medium,
-                  width: 100.0, height: 150.0),
-            ],
+                new Row(
+                  children: <Widget>[
+                    new Expanded(
+                      child: new Container(
+                        height: 150.0,
+                        child: new Column(
+                          children: <Widget>[
+                            new Padding(
+                                padding: new EdgeInsets.only(top: 10.0)),
+                            new Row(
+                              children: <Widget>[
+                                new StarItem(
+                                    int.parse(detail.rating.stars), 25.0,
+                                    Colors.orange[300], true),
+                                new Text('${detail.rating.average}'),
+                              ],
+                            ),
+                            new Container(
+                              width: double.infinity,
+                              margin: EdgeInsets.only(top: 10.0),
+                              child: new Text(
+                                MovieDetail.getDetailDesc(detail),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -272,7 +288,7 @@ class RateStarsRightView extends StatelessWidget {
         ),
         new Container(
           height: 20.0,
-          margin: EdgeInsets.only(left: 5.0,right: 45.0),
+          margin: EdgeInsets.only(left: 5.0, right: 45.0),
           child: new Row(
             children: <Widget>[
               new Expanded(child: new Container()),
@@ -297,7 +313,7 @@ class StarAndProgressItem extends StatelessWidget {
     return new Row(
       children: <Widget>[
         new Container(
-          width:60.0,
+          width: 60.0,
           alignment: Alignment.centerRight,
           child: new Row(
             children: <Widget>[
