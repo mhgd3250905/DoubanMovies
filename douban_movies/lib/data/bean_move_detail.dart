@@ -53,15 +53,24 @@ class MovieDetail {
   image images;
   rate rating;
 
-  static getDetailDesc(MovieDetail detail){
+  getTitleDesc(){
+    StringBuffer sb=new StringBuffer();
+    if(original_title!=title){
+      sb.write(original_title);
+    }
+    sb.write('($year)');
+    return sb.toString();
+  }
+
+  getDetailDesc(){
       StringBuffer sb=new StringBuffer();
-      for(var i=0;i<detail.directors.length;i++){
-        sb.write('${i==0?'':'/'}${detail.directors[i].name}');
+      for(var i=0;i<directors.length;i++){
+        sb.write('${i==0?'':'/'}${directors[i].name}');
       }
-      for(var i=0;i<detail.genres.length;i++){
-        sb.write('/${detail.genres[i]}');
+      for(var i=0;i<genres.length;i++){
+        sb.write('/${genres[i]}');
       }
-      sb.write('/${detail.year}');
+      sb.write('/${year}');
       return sb.toString();
   }
 
