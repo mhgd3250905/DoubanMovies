@@ -138,34 +138,12 @@ class MovieTitleContentItem extends StatelessWidget {
                 ),
               ),
             ),
-            new Row(
-              children: <Widget>[
-                new Expanded(
-                  child: new Container(
-                    height: 150.0,
-                    child: new Column(
-                      children: <Widget>[
-                        new Padding(padding: new EdgeInsets.only(top: 10.0)),
-                        new Row(
-                          children: <Widget>[
-                            new StarItem(int.parse(detail.rating.stars), 25.0,
-                                Colors.orange[300], true),
-                            new Text('${detail.rating.average}'),
-                          ],
-                        ),
-                        new Container(
-                          width: double.infinity,
-                          margin: EdgeInsets.only(top: 10.0),
-                          child: new Text(
-                            detail.getDetailDesc(),
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+            new Container(
+              child: new Text(detail.getTitleDesc(),
+                style: new TextStyle(
+                    fontWeight: FontWeight.bold
                 ),
-              ],
+              ),
             ),
           ],
         ),
