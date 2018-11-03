@@ -53,12 +53,25 @@ class MovieDetail {
   image images;
   rate rating;
 
-  getTitleDesc(){
+  getTitleDescTop(){
     StringBuffer sb=new StringBuffer();
     if(original_title!=title){
       sb.write(original_title);
     }
     sb.write('($year)');
+    return sb.toString();
+  }
+
+  getTitleDescBottom(){
+    StringBuffer sb=new StringBuffer();
+    for(var i=0;i<countries.length;i++){
+      sb.write('${i==0?'':'/'}${countries[i]}');
+    }
+    for(var i=0;i<genres.length;i++){
+      sb.write('/${genres[i]}');
+    }
+    sb.write('/上映时间：${pubdates[0]}');
+    sb.write('/片长：${durations[0]}');
     return sb.toString();
   }
 

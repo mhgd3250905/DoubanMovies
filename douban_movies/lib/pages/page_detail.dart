@@ -99,14 +99,13 @@ class MovieTitleView extends StatelessWidget {
       padding: new EdgeInsets.all(10.0),
       child: new Row(
         children: <Widget>[
-          new FittedBox(
+          new ClipRRect(
             child: new FadeInImage.memoryNetwork(
+              fit: BoxFit.fitWidth,
               placeholder: kTransparentImage,
               image: detail.images.medium,
-//              width: 100.0,
-//              height: 150.0,
             ),
-            fit: BoxFit.cover,
+            borderRadius: new BorderRadius.circular(4.0),
           ),
           new MovieTitleContentItem(detail),
         ],
@@ -134,14 +133,32 @@ class MovieTitleContentItem extends StatelessWidget {
                 detail.title,
                 style: new TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 30.0,
+                  fontSize: 23.0,
                 ),
               ),
             ),
             new Container(
-              child: new Text(detail.getTitleDesc(),
+              margin: new EdgeInsets.only(top: 5.0, right: 5.0),
+              width: double.infinity,
+              alignment: Alignment.centerLeft,
+              child: new Text(
+                detail.getTitleDescTop(),
                 style: new TextStyle(
-                    fontWeight: FontWeight.bold
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15.0,
+                ),
+              ),
+            ),
+            new Container(
+              margin: new EdgeInsets.only(top: 5.0, right: 5.0),
+              width: double.infinity,
+              alignment: Alignment.centerLeft,
+              child: new Text(
+                detail.getTitleDescBottom(),
+                style: new TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                  fontSize: 12.0,
                 ),
               ),
             ),
