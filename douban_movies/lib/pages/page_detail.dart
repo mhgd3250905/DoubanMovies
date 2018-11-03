@@ -127,6 +127,7 @@ class MovieTitleContentItem extends StatelessWidget {
         padding: new EdgeInsets.all(5.0),
         child: new Column(
           children: <Widget>[
+            /// Title
             new Container(
               width: double.infinity,
               child: new Text(
@@ -137,6 +138,8 @@ class MovieTitleContentItem extends StatelessWidget {
                 ),
               ),
             ),
+
+            /// Title Top Desc
             new Container(
               margin: new EdgeInsets.only(top: 5.0, right: 5.0),
               width: double.infinity,
@@ -149,6 +152,8 @@ class MovieTitleContentItem extends StatelessWidget {
                 ),
               ),
             ),
+
+            ///Title Bottom Desc
             new Container(
               margin: new EdgeInsets.only(top: 5.0, right: 5.0),
               width: double.infinity,
@@ -162,8 +167,55 @@ class MovieTitleContentItem extends StatelessWidget {
                 ),
               ),
             ),
+
+            /// Title Bottom Buttons
+            getTitleButtons()
           ],
         ),
+      ),
+    );
+  }
+
+  ///get Title Block bottom buttons
+  getTitleButtons() {
+    return new Container(
+      margin: new EdgeInsets.only(top: 10.0),
+      child: new Row(
+        children: <Widget>[
+          new Expanded(
+              flex: 1,
+              child: new RaisedButton.icon(
+                color: Colors.white,
+                icon: new Icon(
+                  Icons.favorite_border,
+                  color: Colors.orange[400],
+                ),
+                label: new Text(
+                  '想看',
+                  style: new TextStyle(fontWeight: FontWeight.bold),
+                ),
+                onPressed: () {
+                  print('点击了按钮！');
+                },
+              )),
+          new Padding(padding: new EdgeInsets.all(5.0)),
+          new Expanded(
+              flex: 1,
+              child: new RaisedButton.icon(
+                color: Colors.white,
+                icon: new Icon(
+                  Icons.star_border,
+                  color: Colors.orange[400],
+                ),
+                label: new Text(
+                  '看过',
+                  style: new TextStyle(fontWeight: FontWeight.bold),
+                ),
+                onPressed: () {
+                  print('点击了按钮！');
+                },
+              )),
+        ],
       ),
     );
   }
