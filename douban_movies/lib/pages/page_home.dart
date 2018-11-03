@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:douban_movies/res/value_string.dart';
 import 'package:douban_movies/data/bean_move_list.dart';
 import 'package:douban_movies/net/http.dart';
-import 'package:douban_movies/pages/page_detail.dart';
+import 'package:douban_movies/pages/detail/page_detail.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'views/StartsView.dart';
 
