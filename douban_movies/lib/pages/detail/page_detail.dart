@@ -9,6 +9,7 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:douban_movies/pages/detail/MovieTitle/MovieTitle.dart';
 import 'package:douban_movies/pages/detail/MovieRating/MovieRating.dart';
 import 'package:douban_movies/pages/detail/MovieChannel/MovieChannel.dart';
+import 'package:douban_movies/pages/detail/MovieDesc/MovieDesc.dart';
 
 class DetailPage extends StatelessWidget {
   final subjectItem;
@@ -83,9 +84,14 @@ class MovieDetial extends StatelessWidget {
         new MovieTitleView(detail),
         new MovieRatingView(detail),
         new Container(
+          padding: new EdgeInsets.only(left: 10.0,right: 10.0),
+          child: new Divider(color: Colors.grey,),
+        ),
+        new Container(
           height: 50.0,
           child: new MovieChnnelView(detail),
         ),
+        new MovieDescView(detail),
         new Expanded(child: new Container(),
         flex: 10,),
       ],

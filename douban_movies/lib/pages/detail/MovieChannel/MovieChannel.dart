@@ -10,12 +10,10 @@ class MovieChnnelView extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Container(
-      padding: new EdgeInsets.all(10.0),
+      padding: new EdgeInsets.only(left:10.0,right: 10.0,bottom: 5.0),
       child: new Container(
         child: new Row(
           children: <Widget>[
-            new Text('所属频道'),
-            new Padding(padding: new EdgeInsets.only(left: 10.0)),
             getMovieChannelItems(detail),
           ],
         ),
@@ -30,16 +28,24 @@ class MovieChnnelView extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: detail.tags.length,
         itemBuilder: (context, i) {
-          return new Container(
-            padding: new EdgeInsets.only(right: 5.0),
-            child: new Chip(
-              onDeleted: () {
-                print('点击了标签！');
-              },
-              deleteIcon: new Icon(Icons.chevron_right),
-              label: new Text(detail.tags[i]),
-            ),
-          );
+          if(i==0){
+            return new Container(
+              alignment: Alignment.centerLeft,
+              padding: new EdgeInsets.only(right:5.0),
+              child: new Text('所属频道'),
+            );
+          }else {
+            return new Container(
+              padding: new EdgeInsets.only(right: 5.0),
+              child: new Chip(
+                onDeleted: () {
+                  print('点击了标签！');
+                },
+                deleteIcon: new Icon(Icons.chevron_right),
+                label: new Text(detail.tags[i]),
+              ),
+            );
+          }
         },
       ),
     );

@@ -40,7 +40,7 @@ class MovieTitleContentItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Expanded(
       child: new Container(
-        padding: new EdgeInsets.all(5.0),
+        padding: new EdgeInsets.only(left:10.0,top: 5.0,right: 5.0,bottom: 5.0),
         child: new Column(
           children: <Widget>[
             /// Title
