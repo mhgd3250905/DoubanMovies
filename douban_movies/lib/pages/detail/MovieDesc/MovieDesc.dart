@@ -24,7 +24,7 @@ class MovieDescView extends StatelessWidget {
             ),
           ),
           new Container(
-            child: new ExpansionText(detail.summary.substring(0,20),
+            child: new ExpansionText(detail.summary.substring(0, 40),
                 detail.summary, false),
           ),
         ],
@@ -61,7 +61,6 @@ class _ExpansionTextState extends State<ExpansionText> {
   }
 
 
-
   expandText() {
     if (_expand) {
       _expand = false;
@@ -75,16 +74,35 @@ class _ExpansionTextState extends State<ExpansionText> {
 
   @override
   Widget build(BuildContext context) {
-    return new RichText(text: new TextSpan(
-      children: [
-        new TextSpan(
-          text: _expand?_body:_title,
-          recognizer: new TapGestureRecognizer()..onTap=(){
-            expandText();
-          }
-        )
-      ],
-    ),
+    return new Container(
+      width: double.infinity,
+      alignment: Alignment.centerLeft,
+      child: new Text.rich(new TextSpan(
+        children: [
+          new TextSpan(
+            text: _expand ? _body : _title,
+            recognizer: new TapGestureRecognizer()
+              ..onTap = () {
+                expandText();
+              },
+          ),
+          getExpandText(_expand),
+        ],
+      ),),
+    );
+  }
+
+  getExpandText(bool expand) {
+    return expand ? new TextSpan() : new TextSpan(
+      text: '展开',
+      recognizer: new TapGestureRecognizer()
+        ..onTap = () {
+          expandText();
+        },
+      style: new TextStyle(
+        decoration: TextDecoration.underline,
+        color: Colors.lightBlue,
+      ),
     );
   }
 }
