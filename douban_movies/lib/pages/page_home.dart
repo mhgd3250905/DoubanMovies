@@ -5,6 +5,7 @@ import 'package:douban_movies/net/http.dart';
 import 'package:douban_movies/pages/detail/page_detail.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'views/StartsView.dart';
+import 'package:douban_movies/pages/views/ClipImageView.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -111,14 +112,11 @@ class MoveItem extends StatelessWidget {
       child: new Row(
         children: <Widget>[
           new Container(
+            width: 110.0,
             padding: EdgeInsets.only(left: 10.0),
             //使用图片渐入框架
-            child: new FadeInImage.memoryNetwork(
-              placeholder: kTransparentImage,
-              image: subjectData.images.medium,
-              width: 100.0,
-              height: 150.0,
-            ),
+            child: ClipImageView(subjectData.images.medium,
+                new BorderRadius.circular(4.0)),
           ),
           new Expanded(
             child: new Container(
@@ -131,24 +129,22 @@ class MoveItem extends StatelessWidget {
                     child: new Text(
                       subjectData.title,
                       style: new TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 18.0,
                         fontWeight: FontWeight.bold,
                       ),
                       textAlign: TextAlign.left,
                     ),
                   ),
-                  new Row(
-                    children: <Widget>[
-                      new StarItem(int.parse(subjectData.rating.stars), 25.0,
-                          Colors.orange[300], true),
-                      new Text('${subjectData.rating.average}')
-                    ],
-                  ),
+                  getRatingItem(subjectData),
                   new Container(
+                    margin: new EdgeInsets.only(top: 10.0),
                     width: double.infinity,
                     child: new Text(
                       '${MovieList.getDetailDesc(subjectData)}',
                       textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
 //                  new Expanded(
@@ -161,6 +157,40 @@ class MoveItem extends StatelessWidget {
               ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  getRatingItem(subject subjectData) {
+    return int.parse(subjectData.rating.stars) == 0 ?
+    new Container(
+      width: double.infinity,
+      margin: new EdgeInsets.only(top: 10.0),
+      child: Text(
+          '暂无评分',
+        textAlign: TextAlign.start,
+        style: TextStyle(
+          color: Colors.grey,
+          fontSize: 12.0,
+        ),
+      ),
+    )
+        : new Container(
+      margin: new EdgeInsets.only(top: 10.0),
+      child: new Row(
+        children: <Widget>[
+          new StarItem(int.parse(subjectData.rating.stars), 15.0,
+              Colors.orange[300], true),
+          new Container(
+            margin: EdgeInsets.only(left: 5.0),
+            child: new Text(
+              '${subjectData.rating.average}',
+              style: TextStyle(
+                fontSize: 12.0,
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -178,27 +208,27 @@ class CastsView extends StatelessWidget {
     return casts == null
         ? new Container()
         : new ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: casts.length,
-            itemBuilder: (context, i) {
-              return new Column(
-                children: <Widget>[
-                  new Container(
-                    padding: new EdgeInsets.only(
-                        left: i != 0 ? 10.0 : 0.0, top: 5.0),
-                    child: new ClipOval(
-                      child: new FadeInImage.memoryNetwork(
-                        placeholder: kTransparentImage,
-                        fit: BoxFit.fitWidth,
-                        image: casts[i].avatars.small,
-                        height: 45.0,
-                        width: 45.0,
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
-          );
+      scrollDirection: Axis.horizontal,
+      itemCount: casts.length,
+      itemBuilder: (context, i) {
+        return new Column(
+          children: <Widget>[
+            new Container(
+              padding: new EdgeInsets.only(
+                  left: i != 0 ? 10.0 : 0.0, top: 5.0),
+              child: new ClipOval(
+                child: new FadeInImage.memoryNetwork(
+                  placeholder: kTransparentImage,
+                  fit: BoxFit.fitWidth,
+                  image: casts[i].avatars.small,
+                  height: 45.0,
+                  width: 45.0,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

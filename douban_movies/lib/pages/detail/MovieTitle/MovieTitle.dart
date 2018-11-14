@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:douban_movies/data/bean_move_detail.dart';
-import 'package:transparent_image/transparent_image.dart';
+import 'package:douban_movies/pages/views/ClipImageView.dart';
 
 ///Movie Title block
 class MovieTitleView extends StatelessWidget {
@@ -15,13 +15,9 @@ class MovieTitleView extends StatelessWidget {
       padding: new EdgeInsets.all(10.0),
       child: new Row(
         children: <Widget>[
-          new ClipRRect(
-            child: new FadeInImage.memoryNetwork(
-              fit: BoxFit.fitWidth,
-              placeholder: kTransparentImage,
-              image: detail.images.medium,
-            ),
-            borderRadius: new BorderRadius.circular(4.0),
+          new ClipImageView(
+            detail.images.medium,
+            new BorderRadius.circular(4.0),
           ),
           new MovieTitleContentItem(detail),
         ],
@@ -40,9 +36,11 @@ class MovieTitleContentItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Expanded(
       child: new Container(
-        padding: new EdgeInsets.only(left:10.0,top: 5.0,right: 5.0,bottom: 5.0),
+        padding: new EdgeInsets.only(
+            left: 10.0, top: 5.0, right: 5.0, bottom: 5.0),
         child: new Column(
           children: <Widget>[
+
             /// Title
             new Container(
               width: double.infinity,

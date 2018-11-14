@@ -24,6 +24,7 @@ class MovieDescView extends StatelessWidget {
             ),
           ),
           new Container(
+            margin: EdgeInsets.only(top: 10.0),
             child: new ExpansionText(detail.summary.substring(0, 40),
                 detail.summary, false),
           ),

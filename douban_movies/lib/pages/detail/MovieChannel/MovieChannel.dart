@@ -11,12 +11,10 @@ class MovieChnnelView extends StatelessWidget {
     // TODO: implement build
     return new Container(
       padding: new EdgeInsets.only(left:10.0,right: 10.0,bottom: 5.0),
-      child: new Container(
-        child: new Row(
-          children: <Widget>[
-            getMovieChannelItems(detail),
-          ],
-        ),
+      child: new Row(
+        children: <Widget>[
+          getMovieChannelItems(detail),
+        ],
       ),
     );
   }

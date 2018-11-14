@@ -10,6 +10,7 @@ import 'package:douban_movies/pages/detail/MovieTitle/MovieTitle.dart';
 import 'package:douban_movies/pages/detail/MovieRating/MovieRating.dart';
 import 'package:douban_movies/pages/detail/MovieChannel/MovieChannel.dart';
 import 'package:douban_movies/pages/detail/MovieDesc/MovieDesc.dart';
+import 'package:douban_movies/pages/detail/MovieActors/MovieActors.dart';
 
 class DetailPage extends StatelessWidget {
   final subjectItem;
@@ -79,12 +80,12 @@ class MovieDetial extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Column(
+    return new ListView(
       children: <Widget>[
         new MovieTitleView(detail),
         new MovieRatingView(detail),
         new Container(
-          padding: new EdgeInsets.only(left: 10.0,right: 10.0),
+          padding: new EdgeInsets.only(left: 10.0, right: 10.0),
           child: new Divider(color: Colors.grey,),
         ),
         new Container(
@@ -92,9 +93,12 @@ class MovieDetial extends StatelessWidget {
           child: new MovieChnnelView(detail),
         ),
         new MovieDescView(detail),
-        new Expanded(child: new Container(),
-        flex: 10,),
+        new MovieActorsView(detail),
+//        new Expanded(child: new Container(),
+//        ),
       ],
     );
   }
 }
+
+
