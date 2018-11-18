@@ -48,7 +48,7 @@ class MovieTitleContentItem extends StatelessWidget {
                 detail.title,
                 style: new TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 23.0,
+                  fontSize: 20.0,
                 ),
               ),
             ),
