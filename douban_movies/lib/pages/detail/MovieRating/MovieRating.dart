@@ -20,7 +20,7 @@ class MovieRatingView extends StatelessWidget {
       child: new Column(
         children: <Widget>[
           new Container(
-            padding: EdgeInsets.only(top: 5.0, left: 10.0),
+            padding: EdgeInsets.only(top: 10.0, left: 10.0),
             child: new Text(
               '豆瓣评分',
               style: new TextStyle(
@@ -36,18 +36,19 @@ class MovieRatingView extends StatelessWidget {
             child: new RateStarsView(detail),
           ),
           new Container(
-            margin: EdgeInsets.only(left: 10.0,right: 10.0),
-            child: new Divider(color: Colors.grey[700],),
+            margin: EdgeInsets.only(left: 10.0, right: 10.0),
+            child: new Divider(color: Colors.grey[300],),
           ),
           new Container(
             margin: EdgeInsets.only(right: 10.0),
             width: double.infinity,
-            child: Text('${detail.getCollectPeopleCount()}k人看过  ${detail.getWishPeopleCount()}k人想看',
-            style: TextStyle(
-              color: Colors.grey[700],
-              fontSize: 12.0,
-            ),
-            textAlign: TextAlign.end,),
+            child: Text('${detail.getCollectPeopleCount()}k人看过  ${detail
+                .getWishPeopleCount()}k人想看',
+              style: TextStyle(
+                color: Colors.grey[300],
+                fontSize: 12.0,
+              ),
+              textAlign: TextAlign.end,),
           ),
         ],
       ),
@@ -145,16 +146,15 @@ class RateStarsRightView extends StatelessWidget {
         ),
         new Container(
           height: 20.0,
-          margin: EdgeInsets.only(left: 5.0, right: 45.0),
-          child: new Row(
-            children: <Widget>[
-              new Expanded(child: new Container()),
-              new Text('${detail.rating.details.getDetailTotal()}人评分',
-              style: TextStyle(
+          width: double.infinity,
+          margin: EdgeInsets.only(left: 145.0),
+          alignment: Alignment.centerLeft,
+          child: new Text('${detail.rating.details.getDetailTotal()}人评分',
+            style: TextStyle(
                 fontSize: 12.0,
-                color: Colors.grey[700]
-              ),),
-            ],
+                color: Colors.grey[300]
+            ),
+            textAlign: TextAlign.start,
           ),
         ),
       ],
@@ -180,7 +180,8 @@ class StarAndProgressItem extends StatelessWidget {
               new Expanded(child: new Container()),
               new Container(
                 alignment: Alignment.centerRight,
-                child: new StarItem(_starIndex * 10, 12.0, Colors.grey[700], false),
+                child: new StarItem(
+                    _starIndex * 10, 12.0, Colors.grey[300], false),
               )
             ],
           ),

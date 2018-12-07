@@ -11,13 +11,15 @@ class MovieTitleView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      height: 200.0,
       padding: new EdgeInsets.all(10.0),
       child: new Row(
         children: <Widget>[
-          new ClipImageView(
-            detail.images.medium,
-            new BorderRadius.circular(4.0),
+          new Container(
+            width: 100.0,
+            child: new ClipImageView(
+              detail.images.medium,
+              new BorderRadius.circular(4.0),
+            ),
           ),
           new MovieTitleContentItem(detail),
         ],

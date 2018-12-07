@@ -7,16 +7,36 @@ import 'package:transparent_image/transparent_image.dart';
 import 'views/StartsView.dart';
 import 'package:douban_movies/pages/views/ClipImageView.dart';
 
+final List<Tab> tabs = <Tab>[
+  new Tab(text: '正在热映'),
+  new Tab(text: '即将上映'),
+  new Tab(text: 'Top250'),
+//  new Tab(text: '口碑榜'),
+//  new Tab(text: '北美票房榜'),
+  new Tab(text: '新片榜'),
+];
+
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: AppStrings.AppName,
-      home: new Scaffold(
-        appBar: new AppBar(
-          title: new Text(AppStrings.HomePageAppBarTitle),
+      home: new DefaultTabController(
+        length: tabs.length,
+        child: new Scaffold(
+          appBar: new AppBar(
+            title: new Text(AppStrings.HomePageAppBarTitle),
+            bottom: new TabBar(
+              tabs: tabs,
+              isScrollable: true,
+            ),
+          ),
+          body: new TabBarView(
+            children: tabs.map((Tab tab) {
+              return HomeContent(tab);
+            }).toList(),
+          ),
         ),
-        body: new HomeContent(),
       ),
     );
   }
@@ -26,16 +46,24 @@ class HomePage extends StatelessWidget {
  * 创建显示在首页的内容
  */
 class HomeContent extends StatefulWidget {
+  final Tab _tab;
+
+  HomeContent(this._tab);
+
   @override
-  _HomeContentState createState() => _HomeContentState();
+  _HomeContentState createState() => _HomeContentState(_tab);
 }
 
-class _HomeContentState extends State<HomeContent> {
+class _HomeContentState extends State<HomeContent> with AutomaticKeepAliveClientMixin{
+  final Tab _tab;
   List<subject> _subjects = new List();
   ScrollController _scrollController = new ScrollController();
+  final GlobalKey<RefreshIndicatorState> _refreshIndicaterState=GlobalKey<RefreshIndicatorState>();
   int start = 0;
   int limit = 25;
   int page = 0;
+
+  _HomeContentState(this._tab);
 
   @override
   void initState() {
@@ -47,35 +75,92 @@ class _HomeContentState extends State<HomeContent> {
       }
     });
     _loadData();
+    new Future.delayed(const Duration(seconds: 0),(){
+      _refreshIndicaterState.currentState.show().then((e){});
+      return true;
+    });
   }
+
+
 
   //获取电影列表
   Future<Null> _loadData() async {
     page = 0;
-    var datas = await HttpUtils.get(HttpUtils.URL_GET_MOVIE_LIST, map: {
+    String url = HttpUtils.URL_GET_MOVIE_LIST_IN_THEATERS;
+    Map map = {
       'apikey': HttpUtils.URL_API_KEY,
       'udid': HttpUtils.URL_UDID,
       'city': '上海',
       'client': '',
       'start': start + page * limit,
       'count': limit
-    });
+    };
+    switch (_tab.text) {
+      case '正在热映':
+        url = HttpUtils.URL_GET_MOVIE_LIST_IN_THEATERS;
+        break;
+      case '即将上映':
+        url = HttpUtils.URL_GET_MOVIE_LIST_COMING_SOON;
+        break;
+      case 'Top250':
+        url = HttpUtils.URL_GET_MOVIE_LIST_TOP_250;
+        break;
+      case '口碑榜':
+        url = HttpUtils.URL_GET_MOVIE_LIST_WEEKLY;
+        map = {
+          'apikey': HttpUtils.URL_API_KEY,
+          'udid': '',
+          'city': '上海',
+          'client': '',
+        };
+        break;
+      case '北美票房榜':
+        url = HttpUtils.URL_GET_MOVIE_LIST_US_BOX;
+        map = {
+          'apikey': HttpUtils.URL_API_KEY,
+          'udid': '',
+          'client': '',
+        };
+        break;
+      case'新片榜':
+        url = HttpUtils.URL_GET_MOVIE_LIST_NEW_MOVIES;
+        map = {
+          'apikey': HttpUtils.URL_API_KEY,
+          'udid': '',
+          'client': '',
+        };
+        break;
+    }
+    var datas = await HttpUtils.get(
+      url, map: map,
+    );
     MovieList moveList = new MovieList(datas);
     _subjects = moveList.subjects;
-    setState(() {});
+    setState(() {}
+    );
   }
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
     return new RefreshIndicator(
+      key: _refreshIndicaterState,
       child: new Container(
+
         child: new ListView.builder(
+//          physics: new AlwaysScrollableScrollPhysics(),
           controller: _scrollController,
           itemCount: _subjects.length,
           itemBuilder: (context, i) {
             if (i.isOdd) return new Divider();
             int index = i ~/ 2;
-            return new MoveItem(_subjects[index]);
+            return new Container(
+              margin: EdgeInsets.only(top: i==0?10.0:0),
+              child: new MoveItem(_subjects[index]),
+            );
           },
         ),
       ),
@@ -86,12 +171,51 @@ class _HomeContentState extends State<HomeContent> {
   void _getMore() async {
     page++;
     print('$page');
-    var datas = await HttpUtils.get(HttpUtils.URL_GET_MOVIE_LIST,
-        map: {'start': start + page * limit, 'count': limit});
-    MovieList moveList = new MovieList(datas);
-    _subjects.addAll(moveList.subjects);
+    String url = HttpUtils.URL_GET_MOVIE_LIST_IN_THEATERS;
+    bool canGetMore = true;
+    switch (_tab.text) {
+      case '正在热映':
+        url = HttpUtils.URL_GET_MOVIE_LIST_IN_THEATERS;
+        break;
+      case '即将上映':
+        url = HttpUtils.URL_GET_MOVIE_LIST_COMING_SOON;
+        break;
+      case 'Top250':
+        url = HttpUtils.URL_GET_MOVIE_LIST_TOP_250;
+        break;
+      case '口碑榜':
+        canGetMore = false;
+        url = HttpUtils.URL_GET_MOVIE_LIST_WEEKLY;
+        break;
+      case '北美票房榜':
+        canGetMore = false;
+        url = HttpUtils.URL_GET_MOVIE_LIST_US_BOX;
+        break;
+      case'新片榜':
+        canGetMore = false;
+        url = HttpUtils.URL_GET_MOVIE_LIST_NEW_MOVIES;
+        break;
+    }
+    if (canGetMore) {
+      var datas = await HttpUtils.get(url,
+          map: {
+            'apikey': HttpUtils.URL_API_KEY,
+            'udid': HttpUtils.URL_UDID,
+            'city': '上海',
+            'client': '',
+            'start': start + page * limit,
+            'count': limit
+          }
+      );
+      MovieList moveList = new MovieList(datas);
+      _subjects.addAll(moveList.subjects);
+    }
     setState(() {});
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 
 class MoveItem extends StatelessWidget {
@@ -103,12 +227,12 @@ class MoveItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return new GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          new MaterialPageRoute(
-              builder: (context) => new DetailPage(subjectData)),
-        );
-      },
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => new DetailPage(subjectData)),
+      );
+    },
       child: new Row(
         children: <Widget>[
           new Container(
@@ -168,7 +292,7 @@ class MoveItem extends StatelessWidget {
       width: double.infinity,
       margin: new EdgeInsets.only(top: 10.0),
       child: Text(
-          '暂无评分',
+        '暂无评分',
         textAlign: TextAlign.start,
         style: TextStyle(
           color: Colors.grey,

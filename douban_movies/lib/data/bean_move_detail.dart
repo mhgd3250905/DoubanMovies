@@ -534,6 +534,10 @@ class popular_comment {
   author_item author;
   rate rating;
 
+  getUserfulCountDesc(){
+    return (useful_count/1000.0).toStringAsFixed(1);
+  }
+
   popular_comment.fromParams({this.useful_count, this.content, this.created_at, this.id, this.subject_id, this.author, this.rating});
 
   popular_comment.fromJson(jsonRes) {

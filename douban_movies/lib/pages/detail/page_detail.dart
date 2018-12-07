@@ -11,6 +11,7 @@ import 'package:douban_movies/pages/detail/MovieRating/MovieRating.dart';
 import 'package:douban_movies/pages/detail/MovieChannel/MovieChannel.dart';
 import 'package:douban_movies/pages/detail/MovieDesc/MovieDesc.dart';
 import 'package:douban_movies/pages/detail/MovieActors/MovieActors.dart';
+import 'package:douban_movies/pages/detail/MovieComments/MovieCommentsView.dart';
 
 class DetailPage extends StatelessWidget {
   final subjectItem;
@@ -94,6 +95,7 @@ class MovieDetial extends StatelessWidget {
         ),
         new MovieDescView(detail),
         new MovieActorsView(detail),
+        new MovieCommentsView(detail),
 //        new Expanded(child: new Container(),
 //        ),
       ],

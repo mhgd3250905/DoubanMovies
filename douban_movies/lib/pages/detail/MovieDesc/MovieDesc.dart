@@ -75,6 +75,8 @@ class _ExpansionTextState extends State<ExpansionText> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return new Container(
       width: double.infinity,
       alignment: Alignment.centerLeft,

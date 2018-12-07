@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-class ClipImageView extends StatelessWidget{
+class ClipImageView extends StatelessWidget {
   final String imgUrl;
   final BorderRadius borderRadius;
 
@@ -19,5 +19,4 @@ class ClipImageView extends StatelessWidget{
       borderRadius: borderRadius,
     );
   }
-
 }
